@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Test, typecheck, format, build
+        run: |
+          npm test
+          npm run typecheck
+          npm run format:check
+          npm run build
+
+      # The package must drop into a host that has no CSS framework, no icon
+      # library and no path alias.
+      - name: Pack and check the tarball
+        run: |
+          npm pack --pack-destination "$RUNNER_TEMP"
+          mkdir -p "$RUNNER_TEMP/pack"
+          tar -xzf "$RUNNER_TEMP"/recruit41-recording-player-*.tgz -C "$RUNNER_TEMP/pack"
+          if grep -rIlE 'tailwind|lucide-react|from ["'"'"']@/' "$RUNNER_TEMP/pack/package/dist"; then
+            echo "the tarball carries a dependency the host must not need"
+            exit 1
+          fi
