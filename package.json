@@ -2,7 +2,7 @@
   "name": "@recruit41/recording-player",
   "version": "0.1.0",
   "description": "React player for Recruit41 interview and coding assessment recordings served by the partner API",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

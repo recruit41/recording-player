@@ -139,3 +139,7 @@ Each run reports pass/fail per check (mount, playback progress, cross-track
 spread, seek, session boundary, tail seek, URL refresh, stage switch) and writes
 screenshots and a JSON report to `probe/out/`. Chrome must be installed: MP4
 recordings are H.264, which the browsers Playwright bundles do not decode.
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE).
